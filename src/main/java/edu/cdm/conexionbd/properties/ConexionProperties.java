@@ -9,39 +9,41 @@ import java.util.Properties;
 
 public class ConexionProperties {
 
-    private static String createUrlConnection(String path) throws IOException {
+    private static final String PROVIDER_PROPERTIES_KEY = "provider";
+    private static final String PROVIDER_VALUE_MYSQL = "MYSQL";
+    private static final String PROVIDER_VALUE_SQLSERVER = "SQLSERVER";
+    
+
+    public static String createUrlConnection(String path) throws IOException {
         Properties properties = new Properties();
 
         try (FileInputStream input = new FileInputStream(path)) {
             // Cargamos en memoria el fichero de properties
             properties.load(input);
+            return createUrl(properties.getProperty(PROVIDER_PROPERTIES_KEY), properties);
 
-            // Recuperamos la propiedad url
-            String url = properties.getProperty("url");
-            // Concatenamos valores para obtener la cadena de conexión para SQL Server
-            StringBuilder concatenatedValues = new StringBuilder();
-            concatenatedValues.append(url);
-            concatenatedValues.append(";");
-
-            // "jdbc:sqlserver://localhost:1433;database=empresa;user=user;password=abc123.;trustServerCertificate=true;");
-
-            // Concatenate all values into a single string
-
-            for (String key : properties.stringPropertyNames()) {
-                if (!"url".equals(key)) {
-                    concatenatedValues.append(key);
-                    concatenatedValues.append("=");
-                    concatenatedValues.append(properties.getProperty(key));
-                    concatenatedValues.append(";");
-                }
-            }
-
-            // System.out.println(concatenatedValues.toString());
-            return concatenatedValues.toString();
         } catch (IOException e) {
             e.printStackTrace();
             throw e;
         }
+
+    }
+
+    private static String createUrl(String proveedor, Properties properties) {
+
+        switch (proveedor) {
+            case PROVIDER_VALUE_MYSQL:
+                return createUrlMySQL(properties);
+
+            case PROVIDER_VALUE_SQLSERVER:
+                // TODO
+                break;
+
+            default:
+            throw new UnsupportedOperationException("El proveedor no está entre los permitidos"); 
+                
+        }
+        return null;
 
     }
 
@@ -60,6 +62,32 @@ public class ConexionProperties {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    private static String createUrlMySQL(Properties properties) {
+        // Recuperamos la propiedad url
+        String url = properties.getProperty("url");
+        // Concatenamos valores para obtener la cadena de conexión para SQL Server
+        StringBuilder concatenatedValues = new StringBuilder();
+        concatenatedValues.append(url);
+        concatenatedValues.append(";");
+
+        // "jdbc:sqlserver://localhost:1433;database=empresa;user=user;password=abc123.;trustServerCertificate=true;");
+
+        // Concatenate all values into a single string
+
+        for (String key : properties.stringPropertyNames()) {
+            if (!"url".equals(key)) {
+                concatenatedValues.append(key);
+                concatenatedValues.append("=");
+                concatenatedValues.append(properties.getProperty(key));
+                concatenatedValues.append(";");
+            }
+        }
+
+        // System.out.println(concatenatedValues.toString());
+        return concatenatedValues.toString();
 
     }
 
