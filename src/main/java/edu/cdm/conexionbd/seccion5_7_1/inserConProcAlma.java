@@ -1,4 +1,4 @@
-package edu.cdm.conexionbd.seccion7_1;
+package edu.cdm.conexionbd.seccion5_7_1;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
