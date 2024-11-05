@@ -29,7 +29,7 @@ public class PrimeraConsultaV2 {
             }
          
         } catch (SQLException | IOException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         }
 

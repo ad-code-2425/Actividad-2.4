@@ -20,7 +20,7 @@ public class ConsultaSencillaV2 {
                         " nombre " + rset.getString(2) + " oficio " + rset.getString(3));
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         }
 
