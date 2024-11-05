@@ -32,10 +32,10 @@ public class ConexionProperties {
     private static String createUrl(String proveedor, Properties properties) {
 
         switch (proveedor) {
-            case PROVIDER_VALUE_MYSQL:
-                return createUrlMySQL(properties);
+            case PROVIDER_VALUE_SQLSERVER :
+                return createUrlSQLServer(properties);
 
-            case PROVIDER_VALUE_SQLSERVER:
+            case PROVIDER_VALUE_MYSQL:
                 // TODO
                 break;
 
@@ -65,7 +65,7 @@ public class ConexionProperties {
 
     }
 
-    private static String createUrlMySQL(Properties properties) {
+    private static String createUrlSQLServer(Properties properties) {
         // Recuperamos la propiedad url
         String url = properties.getProperty("url");
         // Concatenamos valores para obtener la cadena de conexión para SQL Server
